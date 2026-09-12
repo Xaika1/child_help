@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import stuff
+from .models import Staff, StaffInfo, Sessions
+
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -16,6 +18,6 @@ class RegisterForm(UserCreationForm):
         
         if commit:
             user.save()
-            stuff.objects.update_or_create(user=user)
+            Staff.objects.update_or_create(user=user)
         
         return user
