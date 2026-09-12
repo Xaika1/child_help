@@ -25,6 +25,7 @@ class Staff(models.Model):
         db_table = 'staff'
         verbose_name = 'Врач'
         verbose_name_plural = 'Врачи'
+        ordering = ['specialization', 'login']
 
     def __str__(self):
         return f"{self.login} ({self.specialization})"

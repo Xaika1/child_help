@@ -5,8 +5,13 @@ from .forms import *
 from .models import *
 
 """Рендер первой страницы"""
+@login_required(login_url='/login')
 def index(request):
-    return render(request, 'main/main_page.html')
+    staff_list = Staff.objects.select_related('info').order_by('specialization', 'login')
+    return render(request, 'main/main.html', {'staff_list': staff_list})
+@login_required(login_url='/login')
+def booking(request):
+    pass
 
 """Выход из аккаунта"""
 @login_required(login_url='/login')
@@ -30,3 +35,5 @@ def sign_up(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/reg.html', {"form": form})
+
+
