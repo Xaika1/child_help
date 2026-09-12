@@ -1,0 +1,54 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center gap-4 py-4">
+
+    <h1 class="h3 text-white text-center mb-0">📅 Мои записи</h1>
+
+    {% for appointment in appointments %}
+    <!-- Карточка записи -->
+    <div class="card text-white bg-dark booking-card shadow-sm w-100" style="max-width: 600px;">
+        <div class="card-body">
+            <div class="card-title">
+                <h5 class="mb-0">
+                    <span class="item">👤 Мастер: {{ appointment.staff.login|capfirst }}</span>
+                    <span class="badge bg-secondary ms-2">{{ appointment.staff.specialization }}</span>
+                </h5>
+            </div>
+
+            <div class="booking-meta mt-2">
+                <span class="item"> {{ appointment.appointment_time|date:"d E Y" }}</span>
+                <span class="item ms-3">🕒 {{ appointment.appointment_time|time:"H:i" }}</span>
+            </div>
+
+            <p class="card-text text-secondary small mb-3 mt-2">
+                {% if appointment.comment %}
+                    💬 Комментарий: {{ appointment.comment }}
+                {% else %}
+                    💬 Комментарий: без комментария
+                {% endif %}
+            </p>
+
+            <div class="d-flex gap-2">
+                <!-- Форма отмены записи -->
+                <form method="post" action="{% url 'cancel_appointment' appointment.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Вы уверены, что хотите отменить запись?');">
+                        Отменить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <!-- Если записей нет -->
+    <div class="alert alert-warning text-center w-100" style="max-width: 600px;">
+        У вас пока нет активных записей.
+        <br>
+        <a href="{% url 'index' %}" class="btn btn-primary btn-sm mt-2">Записаться к врачу</a>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

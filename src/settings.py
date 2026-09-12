@@ -129,3 +129,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+LOGIN_REDIRECT_URL = '/'  # или 'index', если хотите по имени url-паттерна
+
+# Куда перенаправлять пользователя, если он пытается зайти на страницу, требующую авторизации, но не вошел
+LOGIN_URL = '/login/'
